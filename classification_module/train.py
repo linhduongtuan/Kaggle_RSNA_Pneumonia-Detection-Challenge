@@ -28,18 +28,17 @@ from keras.layers.pooling import GlobalAveragePooling2D
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 model_v= "p1"
-#data_v = "v-1"
 gpu_num = 2
 batch_size = gpu_num * 8
 time_str = time.ctime()
 
-out_dir="/home/wccui/densenet_attention_pneumonia/result/classification_model/" + model_v +"/" 
-multi_weights_file = "/home/wccui/densenet_attention_pneumonia/result/classification_model/v1/global_multigpu_Mon Sep 10 23:02:00 2018.h5"
+out_dir="./result/classification_model/" + model_v +"/"
+multi_weights_file = "./result/classification_model/p1/global_multigpu_Mon Oct 29 02_29_46 2018.h5"
 global_multi_name = out_dir + 'global_multigpu_' + time_str + ".h5"
-label_path_train = "/home/wccui/classification_module/train_csv/"
-label_path_test = "/home/wccui/classification_module/val_csv/"
-path_pre = "/home/wccui/classification_module/imgs/train_val_datas"
-
+label_path_train = "./train_csv/"+model_v +"/" + "train/"
+label_path_test = "./train_csv/"+model_v+"/" + "valid/"
+#path_pre = "/home2/data/Kaggle_RSNA_Pneumonia/stage_2_train_images_ori_crop/"
+path_pre = "./images/"
 
 
 nb_classes = 3
@@ -50,7 +49,7 @@ img_channels = 3
 img_dim = (img_rows, img_cols, img_channels)
 
 
-# In[ ]:
+# In[2]:
 
 image_and_label_train = data_generate.get_image_and_label_all(label_path_train, path_pre)
 image_and_label_test = data_generate.get_image_and_label_all(label_path_test, path_pre)
@@ -95,7 +94,7 @@ print("data generation done")
 
 
 
-# In[ ]:
+# In[4]:
 
 model_global = densenet.DenseNet(img_dim, depth=169, nb_dense_block=4, growth_rate=32, nb_filter=64,
                    nb_layers_per_block=[6, 12, 32, 32], bottleneck=True,reduction=0.5,
